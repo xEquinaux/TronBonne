@@ -1,0 +1,42 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:Windows
+/config:
+/profile:HiDef
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin CONSOLA.TTF
+/importer:
+/processor:
+/build:CONSOLA.TTF
+
+#begin CONSOLAB.TTF
+/importer:
+/processor:
+/build:CONSOLAB.TTF
+
+#begin CONSOLAI.TTF
+/importer:
+/processor:
+/build:CONSOLAI.TTF
+
+#begin Consolas.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Consolas.spritefont
+
+#begin CONSOLAZ.TTF
+/importer:
+/processor:
+/build:CONSOLAZ.TTF
+

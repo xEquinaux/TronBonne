@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include=".config\dotnet-tools.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FoundationR\FoundationR.csproj" />
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsDX.csproj" />
+    <ProjectReference Include="..\twitchbot\twitchbot.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\bin\Windows\" />
+  </ItemGroup>
+
+</Project>
