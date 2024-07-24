@@ -72,6 +72,8 @@ namespace TronBonne.UI
 				sb.Draw(backgroundTex, hitbox, bgColor);
 			for (int n = 0; n < content.Length; n++)
 			{
+				if (string.IsNullOrWhiteSpace(content[n]))
+					return;
 				float y = hitbox.Y + n * height - content.Length * height * scroll.value;
 				if (y >= hitbox.Top && y <= hitbox.Bottom - height)
 				{
@@ -84,7 +86,63 @@ namespace TronBonne.UI
 					{
 						sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset, box.Y + yOffset), color);
 					}
-					else sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset, box.Y + yOffset), textColor[n]);
+					else 
+					{ 
+						sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset, box.Y + yOffset), Color.White);
+					}
+				}
+			}
+		}
+		public void Draw(SpriteBatch sb, SpriteFont font, Texture2D backgroundTex, Color color, Color borderColor, int xOffset = 0, int yOffset = 0, int height = 42)
+		{
+			if (!active)
+				return;
+			if (backgroundTex != default)
+				sb.Draw(backgroundTex, hitbox, bgColor);
+			for (int n = 0; n < content.Length; n++)
+			{
+				if (string.IsNullOrWhiteSpace(content[n]))
+					return;
+				float y = hitbox.Y + n * height - content.Length * height * scroll.value;
+				if (y >= hitbox.Top && y <= hitbox.Bottom - height)
+				{
+					Rectangle box = new Rectangle(hitbox.X, (int)y, 32, 32);
+					if (icon != null && icon.Length == content.Length)
+					{
+						sb.Draw(icon[n], new Vector2(hitbox.X, box.Y + yOffset), Color.White);
+					}
+					if (textColor == null || textColor.Length != content.Length)
+					{
+						sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset, box.Y + yOffset), color);
+					}
+					else 
+					{ 
+						for (int i = -1; i < 2; i++)
+						{ 
+							for (int j = -1; j < 2; j++)
+							{ 
+								sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset + i, box.Y + yOffset + j), borderColor);
+							}
+						}
+						sb.DrawString(font, content[n], new Vector2(hitbox.X + xOffset, box.Y + yOffset), color);
+					}
+				}
+			}
+		}
+		public void Draw(SpriteBatch sb, SpriteFont font, Texture2D backgroundTex, Color color, Color borderColor, bool drawItems, int xOffset = 0, int yOffset = 0, int height = 42)
+		{
+			if (!active || item == null)
+				return;
+			if (backgroundTex != default)
+				sb.Draw(backgroundTex, hitbox, bgColor);
+			for (int n = 0; n < item.Length; n++)
+			{
+				float y = hitbox.Y + n * item[n].box.Height - item.Length * item[n].box.Height * scroll.value;
+				if (y >= hitbox.Top && y <= hitbox.Bottom - height)
+				{
+					Rectangle box = new Rectangle(hitbox.X, (int)y, item[n].box.Width, item[n].box.Height);
+					item[n].box = box;
+					item[n].Draw(item[n].HoverOver());
 				}
 			}
 		}
