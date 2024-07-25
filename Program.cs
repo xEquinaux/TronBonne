@@ -22,6 +22,7 @@
 				Plugin.LoadPlugins(directory);
 			}
 			else goto BEGIN;
+			Plugin.Interface = Plugin.Interface.OrderBy(t => t.Priority).ToList();
 			foreach (var item in Plugin.Interface)
 			{
 				try
