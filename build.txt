@@ -1,4 +1,4 @@
 ﻿major		0
-minor		2
-build		35
-revision	5
+minor		3
+build		43
+revision	8

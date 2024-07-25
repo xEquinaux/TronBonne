@@ -45,6 +45,7 @@ namespace TronBonne
 
 		protected override void Initialize()
 		{
+			Window.AllowUserResizing = true;
 			sideBar = new Rectangle(Point.Zero, new Point(200, Window.ClientBounds.Height));
 			sideBarList = new ListBox(sideBar, sideBarScroll, ApiButton.ToArray());
 			base.Initialize();
@@ -62,7 +63,7 @@ namespace TronBonne
 			{
 				if ((bool)item?.LoadContent())
 				{ 
-					if (item.Button.Length > 0)
+					if (item.Button != null && item.Button.Length > 0)
 					{
                         foreach (var item1 in item.Button)
                         {
@@ -104,10 +105,12 @@ namespace TronBonne
 				}
 			}
 
+			var i = ApiButton.OrderByDescending(t => t.text.Length).First();
+			var w = (int)Consolas.MeasureString(i.text).X;
+			sideBar = new Rectangle(0, 0, w, Window.ClientBounds.Height);
+			sideBarList.hitbox = new Rectangle(0, 0, w, Window.ClientBounds.Height);
 			sideBarList.item = ApiButton.ToArray();
 			sideBarList.Update(false);
-
-			
 
 			foreach (var item in Plugin.Interface)
 			{
@@ -136,6 +139,11 @@ namespace TronBonne
 			}
 
 			base.Draw(gameTime);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			Plugin.UnloadPlugins(Program.directory, (List<ChatInterface>)Plugin.Interface);
 		}
 	}
 }

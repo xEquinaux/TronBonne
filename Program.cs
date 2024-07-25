@@ -2,9 +2,9 @@
 {
 	internal class Program
 	{
+		public static string directory = string.Empty;
 		static void Main(string[] args)
 		{
-			string directory = "";
 			if (args.Length > 0)
 			{
 				directory = args[0];
@@ -16,12 +16,12 @@
 			BEGIN:
 			Console.Write("What directory contains the plugins: ");
 			directory = Console.ReadLine();
+			CONTINUE:
 			if (Directory.Exists(directory))
 			{
 				Plugin.LoadPlugins(directory);
 			}
 			else goto BEGIN;
-			CONTINUE:
 			foreach (var item in Plugin.Interface)
 			{
 				try

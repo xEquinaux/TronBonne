@@ -16,8 +16,7 @@ namespace TronBonne
 		{
 			try
 			{
-				Directory.CreateDirectory(Directory.GetCurrentDirectory() + directory);
-				foreach (string item in Directory.EnumerateFiles(Environment.CurrentDirectory + directory, ext, SearchOption.TopDirectoryOnly))
+				foreach (string item in Directory.EnumerateFiles(Path.Combine(Environment.CurrentDirectory, directory), ext, SearchOption.TopDirectoryOnly))
 				{
 					Type[] array = Assembly.LoadFile(item)?.GetExportedTypes();
 					foreach (Type type in array)
@@ -27,7 +26,7 @@ namespace TronBonne
 							continue;
 						}
 						object[] customAttributes = type.GetCustomAttributes(typeof(ApiVersion), inherit: true);
-						if (customAttributes.Length != 0 && ((ApiVersion)customAttributes[0]).Match(new ApiVersion(0, 3)))
+						if (customAttributes.Length != 0 && ((ApiVersion)customAttributes[0]).Match(new ApiVersion(0, 1)))
 						{
 							ChatInterface pluginInstance = (ChatInterface)Activator.CreateInstance(type);
 							if (reload)
@@ -35,7 +34,7 @@ namespace TronBonne
 								pluginInstance.Initialize();
 							}
 							Register(pluginInstance);
-							Console.WriteLine("Loaded: " + pluginInstance.Name + " " + pluginInstance.Version.ToString());
+							//Console.WriteLine("Loaded: " + pluginInstance.Name + " " + pluginInstance.Version.ToString());
 						}
 					}
 				}
@@ -46,14 +45,14 @@ namespace TronBonne
 			}
 		}
 
-		protected static void UnloadPlugins(string directory, List<ChatInterface> list)
+		public static void UnloadPlugins(string directory, List<ChatInterface> list)
 		{
 			foreach (ChatInterface bot in list)
 			{
 				try
 				{
-					Console.WriteLine("Unloaded: " + bot.Name + " " + bot.Version.ToString());
 					bot?.Dispose();
+					Console.WriteLine("Unloaded: " + bot.Name + " " + bot.Version.ToString());
 				}
 				catch (Exception e)
 				{
