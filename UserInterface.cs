@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Timers;
 using SharpDX.Direct3D9;
+using System.Text;
 
 namespace TronBonne.UI
 {
@@ -456,7 +457,7 @@ namespace TronBonne.UI
 			{
 				sb.Draw(Game1.MagicPixel, box, color(select));
 			}
-			sb.DrawString(Game1.Font, text, new Vector2(box.X + 2 + offX, box.Y + 2 + offY), Color.White * 0.90f);
+			sb.DrawString(Game1.Consolas, text, new Vector2(box.X + 2 + offX, box.Y + 2 + offY), Color.White * 0.90f);
 		}
 		public void Draw(SpriteFont font, bool select = true)
 		{
@@ -473,7 +474,7 @@ namespace TronBonne.UI
 				{
 					sb.Draw(Game1.MagicPixel, box, color(select));
 				}
-				sb.DrawString(Game1.Font, text, new Vector2(box.X + 2 + offX, box.Y + 2 + offY), Color.White * 0.90f);
+				sb.DrawString(Game1.Consolas, text, new Vector2(box.X + 2 + offX, box.Y + 2 + offY), Color.White * 0.90f);
 			}
 		}
 	}
@@ -556,8 +557,72 @@ namespace TronBonne.UI
 				{
 					sb.Draw(Game1.MagicPixel, box, color);
 				}
-				sb.DrawString(Game1.Font, text, new Vector2(box.X + 2, box.Y + 1), Color.White);
+				sb.DrawString(Game1.Consolas, text, new Vector2(box.X + 2, box.Y + 1), Color.White);
 			}
+		}
+	}
+	
+	public static class TextWrapper
+	{
+		public static List<string> WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
+		{
+			List<string> lines = new List<string>();
+			string[] words = text.Split(' ');
+
+			StringBuilder currentLine = new StringBuilder();
+			float currentLineWidth = 0f;
+
+			foreach (string word in words)
+			{
+				Vector2 size = spriteFont.MeasureString(word + " ");
+				if (currentLineWidth + size.X > maxLineWidth)
+				{
+					if (size.X > maxLineWidth)
+					{
+						string remainingWord = word;
+						while (spriteFont.MeasureString(remainingWord).X > maxLineWidth)
+						{
+							int splitIndex = FindSplitIndex(spriteFont, remainingWord, maxLineWidth);
+							lines.Add(remainingWord.Substring(0, splitIndex));
+							remainingWord = remainingWord.Substring(splitIndex);
+						}
+						currentLine.Append(remainingWord + " ");
+						currentLineWidth = spriteFont.MeasureString(remainingWord + " ").X;
+					}
+					else
+					{
+						lines.Add(currentLine.ToString());
+						currentLine.Clear();
+						currentLineWidth = 0f;
+						currentLine.Append(word + " ");
+						currentLineWidth += size.X;
+					}
+				}
+				else
+				{
+					currentLine.Append(word + " ");
+					currentLineWidth += size.X;
+				}
+			}
+
+			if (currentLine.Length > 0)
+			{
+				lines.Add(currentLine.ToString());
+			}
+
+			return lines;
+		}
+
+		private static int FindSplitIndex(SpriteFont spriteFont, string word, float maxLineWidth)
+		{
+			for (int i = 1; i < word.Length; i++)
+			{
+				if (spriteFont.MeasureString(word.Substring(0, i)).X > maxLineWidth)
+				{
+					return i - 1;
+				}
+			}
+			return word.Length;
 		}
 	}
 	public static class Helper

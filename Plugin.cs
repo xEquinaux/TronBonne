@@ -11,8 +11,8 @@ namespace TronBonne
 {
 	public class Plugin
 	{
-		public static IList<ChatInterface> interfaces = new List<ChatInterface>();
-		internal static void LoadPlugins(string directory, List<ChatInterface> list, string ext = "*.dll", bool reload = false)
+		public static IList<ChatInterface> Interface = new List<ChatInterface>();
+		public static void LoadPlugins(string directory, string ext = "*.dll", bool reload = false)
 		{
 			try
 			{
@@ -65,9 +65,9 @@ namespace TronBonne
 
 		protected static void Register(ChatInterface bot)
 		{
-			if (!interfaces.Contains(bot))
+			if (!Interface.Contains(bot))
 			{
-				interfaces.Add(bot);
+				Interface.Add(bot);
 			}
 		}
 

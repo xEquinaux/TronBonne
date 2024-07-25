@@ -1,4 +1,4 @@
 ﻿major		0
-minor		1
+minor		2
 build		35
-revision	3
+revision	5
