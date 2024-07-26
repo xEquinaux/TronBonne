@@ -21,6 +21,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="NAudio">
+      <HintPath>..\..\..\OneDrive\Desktop\audio-wave-updater-1.0.4\1.0.4\NAudio.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NAudio.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Plugins\AudioWavePlugin.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Plugins\TwitchChatIRC.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

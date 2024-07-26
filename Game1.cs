@@ -28,7 +28,7 @@ namespace TronBonne
 		/// To link a plugin user interface button to add special effects and uses. Adding 
 		/// a Button to this is required for some features.
 		/// </summary>
-		public static IList<Button> ApiButton = new List<Button>();
+		private static IList<Button> ApiButton = new List<Button>();
 		bool init = false;
 		Rectangle sideBar;
 		int ticks = 0;
@@ -59,6 +59,7 @@ namespace TronBonne
 			MagicPixel.SetData(new byte[] { 255, 255, 255, 255 });
 			Consolas = Content.Load<SpriteFont>("Consolas");
 
+			int num = 0;
 			foreach (var item in Plugin.Interface)
 			{
 				if ((bool)item?.LoadContent())
@@ -68,7 +69,8 @@ namespace TronBonne
                         foreach (var item1 in item.Button)
                         {
 							if (item1 != default && item1.active)
-							{ 
+							{
+								item1.box.Y = (int)Consolas.MeasureString("|").Y * num++;
 								ApiButton.Add(item1);
 							}
                         }

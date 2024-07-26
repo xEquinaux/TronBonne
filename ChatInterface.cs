@@ -15,12 +15,12 @@ namespace TronBonne
 		public virtual string Name => "";
 		public virtual char CommandChar => '!';
 		public virtual string UponLoadSuccessMessage => $"Succesfully loaded {Name} {Version}";
-		public virtual string LoadNotSuccessMessage => $"Unknown plugin {Version} did not load.";
+		public virtual string LoadNotSuccessMessage => $"{Name} plugin {Version} did not load.";
 		/// <summary>
 		/// Each button that is in this array will be added to the side of the main drawing 
 		/// window in a list.
 		/// </summary>
-		public virtual UI.Button[] Button => default;
+		public virtual UI.Button[] Button { get; set; }
 		/// <summary>
 		/// If this passes inspection, the plugin will be set to active and beginning 
 		/// running. It is the first method that runs even before the program begins the 

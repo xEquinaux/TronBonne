@@ -1,4 +1,6 @@
-﻿namespace TronBonne
+﻿using Microsoft.Xna.Framework.Content;
+
+namespace TronBonne
 {
 	internal class Program
 	{
@@ -23,21 +25,28 @@
 			}
 			else goto BEGIN;
 			Plugin.Interface = Plugin.Interface.OrderBy(t => t.Priority).ToList();
-			foreach (var item in Plugin.Interface)
+			int num = Plugin.Interface.Count;
+			var array = (ChatInterface[])Plugin.Interface.ToArray().Clone();
+			Plugin.Interface.Clear();
+			for (int i = 0; i < num; i++)
 			{
+				var item = array[i];
 				try
 				{ 
 					if ((bool)item?.Load())
 					{ 
 						item.active = true;
-						Console.WriteLine(item.UponLoadSuccessMessage);
+						Plugin.Interface.Add(item);
+						Plugin.ConsoleLog(item.UponLoadSuccessMessage);
 					}
 				}
-				catch
+				catch (Exception e)
 				{
-					Console.WriteLine(item.LoadNotSuccessMessage);
+					Plugin.ConsoleLog(item.LoadNotSuccessMessage, ConsoleColor.Yellow);
+					Plugin.ConsoleLog(e.ToString(), ConsoleColor.Red, TimeSpan.FromSeconds(10));
 				}
 			}
+			array = null;
 			new Game1().Run();
 		}
 	}
